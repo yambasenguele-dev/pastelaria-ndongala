@@ -5,8 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Painel Admin | Ndongala Sabor e Arte</title>
   <meta name="robots" content="noindex, nofollow">
-  <link rel="stylesheet" href="css/estilos.css">
-  <link rel="icon" href="imagens/logo.png" type="image/png">
+  
+  <!-- Caminhos corrigidos (../ porque estamos dentro da pasta painel/) -->
+  <link rel="stylesheet" href="../css/estilos.css">
+  <link rel="icon" href="../imagens/logo.png" type="image/png">
+  
   <style>
     .painel {
       max-width: 1100px;
@@ -119,14 +122,14 @@
 
   <header class="cabecalho">
     <div class="cabecalho-conteudo">
-      <a href="index.html" class="logo-area">
-        <img src="imagens/logo.png" alt="Logo" style="width:45px;height:45px;">
+      <a href="../index.html" class="logo-area">
+        <img src="../imagens/logo.png" alt="Logo Ndongala" style="width:45px;height:45px;">
         <div class="logo-texto">
           <h1>Painel Admin</h1>
           <span>Ndongala Sabor e Arte</span>
         </div>
       </a>
-      <a href="index.html" style="color:var(--cor-creme); font-weight:500;">← Voltar ao site</a>
+      <a href="../index.html" style="color:var(--cor-creme); font-weight:500;">← Voltar ao site</a>
     </div>
   </header>
 
@@ -137,7 +140,7 @@
     <div class="aviso-config" id="avisoConfig">
       <strong>⚠ Configuração necessária</strong><br>
       1. Crie um projecto no <a href="https://supabase.com" target="_blank">supabase.com</a><br>
-      2. Execute o ficheiro <code>supabase-schema.sql</code> no SQL Editor<br>
+      2. Execute o ficheiro <code>supabase-schema-final.sql</code> no SQL Editor<br>
       3. Copie a URL e a chave <code>anon</code> e cole em <code>js/supabase.js</code><br>
       Depois recarregue esta página.
     </div>
@@ -147,8 +150,9 @@
     </div>
   </div>
 
+  <!-- Caminhos corrigidos -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase.js"></script>
+  <script src="../js/supabase.js"></script>
   <script>
     function formatarPreco(v) {
       return Number(v).toLocaleString('pt-AO') + ' Kz';
@@ -157,7 +161,13 @@
     function formatarData(iso) {
       if (!iso) return '';
       const d = new Date(iso);
-      return d.toLocaleString('pt-AO', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+      return d.toLocaleString('pt-AO', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
     }
 
     function badgeStatus(status) {
@@ -176,8 +186,8 @@
       const contentor = document.getElementById('contentorPedidos');
       const aviso = document.getElementById('avisoConfig');
 
-      // Verificar se Supabase está configurado
-      if (SUPABASE_URL.includes('SEU-PROJECTO')) {
+      // Verificar se o Supabase já foi configurado
+      if (typeof SUPABASE_URL === 'undefined' || SUPABASE_URL.includes('SEU-PROJECTO')) {
         contentor.innerHTML = '<div class="vazio">Configure o Supabase primeiro (veja o aviso acima).</div>';
         return;
       }
@@ -206,7 +216,7 @@
             <small>${formatarData(p.criado_em)}</small>
           </div>
           <div class="pedido-itens">
-            ${(p.itens_pedido || []).map(i => 
+            ${(p.itens_pedido || []).map(i =>
               `• ${i.nome_produto} × ${i.quantidade} = ${formatarPreco(i.total)}`
             ).join('<br>')}
           </div>
@@ -228,7 +238,7 @@
       if (ok) {
         carregarPedidos();
       } else {
-        alert('Erro ao actualizar o status. Verifique a configuração do banco de dados');
+        alert('Erro ao actualizar o status. Verifique a configuração do Banco de dados );
       }
     }
 
