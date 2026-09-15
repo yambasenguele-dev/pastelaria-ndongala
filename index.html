@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Avançado -->
+  <title>Ndongala Sabor e Arte | Pastelaria Artesanal em Luanda</title>
+  <meta name="description" content="Ndongala Sabor e Arte - Pastelaria artesanal em Luanda. Bolos personalizados, doces, salgados e pães feitos com amor. Encomende pelo WhatsApp. Prifina Maria Ndongala.">
+  <meta name="keywords" content="pastelaria Luanda, bolos personalizados, Ndongala, Prifina Maria Ndongala, doces artesanais, coxinhas, salgados, bolos de aniversário, encomenda bolo Luanda">
+  <meta name="author" content="Prifina Maria Ndongala">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://prifina.com/">
+  
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://prifina.com/">
+  <meta property="og:title" content="Ndongala Sabor e Arte | Pastelaria Artesanal">
+  <meta property="og:description" content="Sempre prontos para adoçar os seus momentos. Bolos, doces e salgados feitos com amor em Luanda.">
+  <meta property="og:image" content="imagens/logo.png">
+  <meta property="og:locale" content="pt_AO">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Ndongala Sabor e Arte">
+  <meta name="twitter:description" content="Pastelaria artesanal em Luanda">
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Bakery",
+    "name": "Ndongala Sabor e Arte",
+    "description": "Pastelaria artesanal em Luanda - bolos personalizados, doces e salgados",
+    "url": "https://prifina.com",
+    "telephone": "+244972893829",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Luanda",
+      "addressCountry": "AO"
+    },
+    "openingHours": ["Mo-Fr 08:00-18:00", "Sa 09:00-16:00"],
+    "image": "https://prifina.com/imagens/logo.png",
+    "priceRange": "$$",
+    "sameAs": [
+      "https://www.instagram.com/prifinandongala",
+      "https://www.facebook.com/share/1BuXo4j7fZ/",
+      "https://www.tiktok.com/@prifinandongalasaboreart"
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="css/estilos.css">
+  <link rel="icon" href="imagens/logo.png" type="image/png">
+</head>
+<body>
+
+  <!-- CABEÇALHO -->
+  <header class="cabecalho">
+    <div class="cabecalho-conteudo">
+      <a href="index.html" class="logo-area">
+        <img src="imagens/logo.png" alt="Logo Ndongala Sabor e Arte">
+        <div class="logo-texto">
+          <h1>Ndongala</h1>
+          <span>Sabor e Arte</span>
+        </div>
+      </a>
+
+      <nav class="navegacao" id="menuNavegacao">
+        <a href="#inicio" class="activo">Início</a>
+        <a href="#cardapio">Cardápio</a>
+        <a href="#galeria">Galeria</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+
+      <button class="botao-carrinho" id="botaoAbrirCarrinho" aria-label="Abrir carrinho">
+        🛒 Carrinho
+        <span class="contador-carrinho" id="contadorCarrinho">0</span>
+      </button>
+
+      <button class="menu-hamburguer" id="botaoMenu" aria-label="Abrir menu">☰</button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="heroi" id="inicio">
+    <div class="heroi-conteudo">
+      <img src="imagens/logo.png" alt="Ndongala Sabor e Arte" class="logo-grande">
+      <h1>Ndongala Sabor e Arte</h1>
+      <p class="slogan">"Sempre prontos para adoçar os seus momentos"</p>
+      <p style="margin-bottom: 1.5rem; opacity: 0.9; font-size: 0.98rem;">
+        Bolos personalizados • Doces • Salgados • Feitos com amor em Luanda
+      </p>
+      <a href="#cardapio" class="botao-principal">Ver Cardápio 🥐</a>
+    </div>
+  </section>
+
+  <!-- CARDÁPIO -->
+  <section class="seccao" id="cardapio">
+    <div class="seccao-titulo">
+      <h2>O Nosso Cardápio</h2>
+      <p>Escolha os seus favoritos e faça a encomenda. Preços em Kwanzas (Kz).</p>
+    </div>
+
+    <div class="filtros" id="filtrosCategorias">
+      <button class="filtro-botao activo" data-categoria="todos">Todos</button>
+      <button class="filtro-botao" data-categoria="bolos">Bolos</button>
+      <button class="filtro-botao" data-categoria="salgados">Salgados</button>
+      <button class="filtro-botao" data-categoria="doces">Doces</button>
+      <button class="filtro-botao" data-categoria="paes">Pães & Outros</button>
+    </div>
+
+    <div class="grelha-produtos" id="listaProdutos">
+      <!-- Preenchido via JavaScript -->
+    </div>
+  </section>
+
+  <!-- MARQUEE COMENTÁRIOS -->
+  <section class="seccao-comentarios">
+    <h2>O que os nossos clientes dizem</h2>
+    <div class="marquee-contentor">
+      <div class="marquee-faixa" id="faixaComentarios"></div>
+    </div>
+  </section>
+
+  <!-- GALERIA -->
+  <section class="seccao" id="galeria">
+    <div class="seccao-titulo">
+      <h2>Galeria de Trabalhos</h2>
+      <p>Alguns dos nossos bolos e salgados feitos com carinho.</p>
+    </div>
+    <div class="galeria-grelha">
+      <div class="galeria-item"><img src="imagens/produtos/bolo-casamento.jpg" alt="Bolo de casamento" loading="lazy"></div>
+      <div class="galeria-item"><img src="imagens/produtos/bolo-minnie.jpg" alt="Bolo Minnie" loading="lazy"></div>
+      <div class="galeria-item"><img src="imagens/produtos/bolo-boss-baby.jpg" alt="Bolo Boss Baby" loading="lazy"></div>
+      <div class="galeria-item"><img src="imagens/produtos/bolo-frutas.jpg" alt="Bolo de frutas" loading="lazy"></div>
+      <div class="galeria-item"><img src="imagens/produtos/bolo-amendoim.jpg" alt="Bolo de amendoim" loading="lazy"></div>
+      <div class="galeria-item"><img src="imagens/produtos/bolo-morango.jpg" alt="Bolo de morango" loading="lazy"></div>
+      <div class="galeria-item"><img src="imagens/produtos/coxinhas.jpg" alt="Coxinhas" loading="lazy"></div>
+      <div class="galeria-item"><img src="imagens/produtos/salgados-misto.jpg" alt="Salgados variados" loading="lazy"></div>
+      <div class="galeria-item"><img src="imagens/produtos/bolinhos-coco.jpg" alt="Bolinhos de coco" loading="lazy"></div>
+      <div class="galeria-item"><img src="imagens/produtos/paes-doces.jpg" alt="Pães doces" loading="lazy"></div>
+      <div class="galeria-item"><img src="imagens/produtos/salgados-chocolate.jpg" alt="Mini bolos de chocolate" loading="lazy"></div>
+      <div class="galeria-item"><img src="imagens/produtos/focaccia.jpg" alt="Focaccia e salgados" loading="lazy"></div>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section class="seccao" id="sobre" style="background: #F9F3E9;">
+    <div class="seccao-titulo">
+      <h2>Sobre a Ndongala</h2>
+    </div>
+    <div class="sobre-grelha">
+      <div class="sobre-imagem">
+        <img src="imagens/prifina.jpg" alt="Prifina Maria Ndongala - Fundadora">
+      </div>
+      <div class="sobre-texto">
+        <h3>Prifina Maria Ndongala</h3>
+        <p>Empreendedora apaixonada pela arte da pastelaria. Cada bolo, doce e salgado é feito com dedicação, criatividade e muito amor.</p>
+        <p>"Cada fatia é uma obra de arte feita com amor, sabor e criatividade."</p>
+        <p>Atendemos em Luanda com retirada e entrega. Horário: Segunda a Sexta (8h–18h) e Sábado (9h–16h).</p>
+        <p><strong>Contacto:</strong> +244 972 893 829</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="seccao" id="contacto">
+    <div class="seccao-titulo">
+      <h2>Fale Connosco</h2>
+      <p>Encomendas, dúvidas ou orçamentos de bolos personalizados.</p>
+    </div>
+    <div style="max-width: 520px; margin: 0 auto; background: white; padding: 1.8rem; border-radius: 14px; box-shadow: var(--sombra);">
+      <form id="formularioContacto" onsubmit="enviarContacto(event)">
+        <div class="grupo-campo">
+          <label for="nomeContacto">Nome completo</label>
+          <input type="text" id="nomeContacto" required placeholder="O seu nome">
+        </div>
+        <div class="grupo-campo">
+          <label for="telefoneContacto">Telefone / WhatsApp</label>
+          <input type="tel" id="telefoneContacto" required placeholder="+244 9XX XXX XXX">
+        </div>
+        <div class="grupo-campo">
+          <label for="mensagemContacto">Mensagem</label>
+          <textarea id="mensagemContacto" rows="4" required placeholder="Ex: quero orçamento de bolo de aniversário para 20 pessoas..."></textarea>
+        </div>
+        <button type="submit" class="botao-enviar">Enviar via WhatsApp</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- RODAPÉ -->
+  <footer class="rodape">
+    <div class="rodape-conteudo">
+      <div>
+        <h3>Ndongala Sabor e Arte</h3>
+        <p>Pastelaria artesanal em Luanda.</p>
+        <p>"Cada fatia é uma obra de arte feita com amor, sabor e criatividade"</p>
+      </div>
+      <div>
+        <h3>Contactos</h3>
+        <p>📞 +244 972 893 829</p>
+        <p>📍 Luanda, Angola</p>
+        <p>🕐 Seg–Sex: 8h–18h | Sáb: 9h–16h</p>
+      </div>
+      <div>
+        <h3>Navegação</h3>
+        <a href="#cardapio">Cardápio</a>
+        <a href="#galeria">Galeria</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+      <div>
+        <h3>Redes Sociais</h3>
+        <div class="redes-sociais">
+          <a href="https://www.instagram.com/prifinandongala" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+          <a href="https://www.facebook.com/share/1BuXo4j7fZ/" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@prifinandongalasaboreart" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.73a8.18 8.18 0 004.77 1.52V6.79a4.85 4.85 0 01-1.35-.1z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="rodape-baixo">
+      <p>© 2026 Ndongala Sabor e Arte — Prifina Maria Ndongala. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- BOTÃO FLUTUANTE WHATSAPP -->
+  <a href="https://wa.me/244972893829?text=Olá!%20Gostaria%20de%20mais%20informações%20sobre%20os%20produtos%20da%20Ndongala." 
+     class="botao-whatsapp-flutuante" 
+     target="_blank" 
+     rel="noopener" 
+     aria-label="Falar no WhatsApp"
+     title="Falar no WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <!-- CARRINHO SIDEBAR -->
+  <div class="carrinho-overlay" id="overlayCarrinho"></div>
+  <aside class="carrinho-sidebar" id="sidebarCarrinho">
+    <div class="carrinho-cabecalho">
+      <h2>O seu Carrinho</h2>
+      <button class="fechar-carrinho" id="botaoFecharCarrinho">×</button>
+    </div>
+    <div class="carrinho-itens" id="itensCarrinho">
+      <div class="carrinho-vazio">O carrinho está vazio.</div>
+    </div>
+    <div class="carrinho-rodape">
+      <div class="total-linha">
+        <span>Total:</span>
+        <span id="totalCarrinho">0 Kz</span>
+      </div>
+      <button class="botao-finalizar" id="botaoFinalizar" disabled>Finalizar Pedido</button>
+    </div>
+  </aside>
+
+  <!-- MODAL CHECKOUT -->
+  <div class="carrinho-overlay" id="overlayCheckout"></div>
+  <div class="modal-checkout escondido" id="modalCheckout">
+    <h2>Finalizar Pedido</h2>
+    <form id="formularioPedido" onsubmit="enviarPedido(event)">
+      <div class="grupo-campo">
+        <label for="nomeCliente">Nome completo *</label>
+        <input type="text" id="nomeCliente" required>
+      </div>
+      <div class="grupo-campo">
+        <label for="telefoneCliente">Telefone / WhatsApp *</label>
+        <input type="tel" id="telefoneCliente" required placeholder="+244 9XX XXX XXX">
+      </div>
+      <div class="grupo-campo">
+        <label for="localizacaoCliente">Localização / Bairro *</label>
+        <input type="text" id="localizacaoCliente" required placeholder="Ex: Talatona, Maianga, Viana...">
+      </div>
+      <label style="font-weight:600; margin-bottom:0.4rem; display:block;">Tipo de entrega *</label>
+      <div class="opcoes-entrega">
+        <div class="opcao-radio seleccionado" data-tipo="retirada" id="opcaoRetirada">
+          <strong>🏪 Retirada</strong><br><small>Sem taxa</small>
+        </div>
+        <div class="opcao-radio" data-tipo="entrega" id="opcaoEntrega">
+          <strong>🛵 Entrega</strong><br><small>Taxa aplicável</small>
+        </div>
+      </div>
+      <input type="hidden" id="tipoEntrega" value="retirada">
+      <div class="grupo-campo escondido" id="campoEndereco">
+        <label for="enderecoCliente">Endereço de entrega *</label>
+        <textarea id="enderecoCliente" rows="2" placeholder="Bairro, rua, referência..."></textarea>
+      </div>
+      <div class="grupo-campo">
+        <label for="observacoes">Observações</label>
+        <textarea id="observacoes" rows="2" placeholder="Ex: bolo sem glúten, horário..."></textarea>
+      </div>
+      <div class="total-linha">
+        <span>Total:</span>
+        <span id="totalCheckout">0 Kz</span>
+      </div>
+      <button type="submit" class="botao-enviar">Enviar Pedido via WhatsApp</button>
+      <button type="button" class="botao-enviar" style="background:#888; margin-top:0.6rem;" id="botaoCancelarCheckout">Cancelar</button>
+    </form>
+  </div>
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/produtos.js"></script>
+  <script src="js/carrinho.js"></script>
+  <script src="js/principal.js"></script>
+</body>
+</html>
