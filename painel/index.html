@@ -5,241 +5,209 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Painel Admin | Ndongala Sabor e Arte</title>
   <meta name="robots" content="noindex, nofollow">
-  
-  <!-- Caminhos corrigidos (../ porque estamos dentro da pasta painel/) -->
+  <link rel="icon" href="../favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
   <link rel="stylesheet" href="../css/estilos.css">
-  <link rel="icon" href="../imagens/logo.png" type="image/png">
-  
   <style>
-    .painel {
-      max-width: 1100px;
-      margin: 2rem auto;
-      padding: 0 1.2rem;
+    :root {
+      --cor-principal: #5D3A1A;
+      --cor-secundaria: #8B5A2B;
+      --cor-dourado: #C9A227;
+      --cor-creme: #F5E6C8;
+      --sombra: 0 4px 20px rgba(93,58,26,0.12);
     }
-    .painel h1 {
-      color: var(--cor-principal);
-      margin-bottom: 0.5rem;
+    body { background:#F7F2EA; margin:0; font-family:'Segoe UI',system-ui,sans-serif; color:#2C1A0E; }
+    .admin-header {
+      background:linear-gradient(135deg,var(--cor-principal),var(--cor-secundaria));
+      color:#fff; padding:0.9rem 1.5rem; display:flex; align-items:center;
+      justify-content:space-between; box-shadow:var(--sombra); position:sticky; top:0; z-index:100;
     }
-    .aviso-config {
-      background: #FFF8E1;
-      border-left: 5px solid var(--cor-dourado);
-      padding: 1.2rem 1.5rem;
-      border-radius: 8px;
-      margin-bottom: 2rem;
-      font-size: 0.95rem;
+    .admin-brand { display:flex; align-items:center; gap:0.75rem; }
+    .admin-brand img { width:42px; height:42px; border-radius:50%; border:2px solid var(--cor-dourado); object-fit:cover; }
+    .admin-brand h1 { font-size:1.15rem; margin:0; color:var(--cor-creme); }
+    .admin-brand span { font-size:0.75rem; opacity:0.85; display:block; }
+    .btn-voltar {
+      background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.3);
+      padding:0.45rem 1rem; border-radius:50px; font-size:0.9rem; text-decoration:none;
     }
-    .lista-pedidos {
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
+    .btn-voltar:hover { background:var(--cor-dourado); color:var(--cor-principal); }
+    .admin-container { max-width:1080px; margin:0 auto; padding:1.8rem 1.2rem 3rem; }
+    .admin-titulo { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1.5rem; }
+    .admin-titulo h2 { margin:0; font-size:1.6rem; color:var(--cor-principal); }
+    .admin-titulo p { margin:0.2rem 0 0; color:#666; font-size:0.95rem; }
+    .btn-actualizar {
+      background:var(--cor-principal); color:var(--cor-creme); border:none;
+      padding:0.55rem 1.2rem; border-radius:50px; font-weight:600; cursor:pointer; font-size:0.9rem;
     }
-    .cartao-pedido {
-      background: white;
-      border-radius: 12px;
-      box-shadow: var(--sombra);
-      padding: 1.3rem 1.5rem;
-      border-left: 5px solid var(--cor-dourado);
+    .aviso-config, .aviso-erro {
+      background:#FFF8E7; border:1px solid #F0D78C; border-radius:12px;
+      padding:1.3rem 1.5rem; margin-bottom:1.8rem; font-size:0.92rem; line-height:1.55;
     }
-    .cartao-pedido.pendente { border-left-color: #F9A825; }
-    .cartao-pedido.confirmado { border-left-color: #1976D2; }
-    .cartao-pedido.preparando { border-left-color: #7B1FA2; }
-    .cartao-pedido.pronto { border-left-color: #388E3C; }
-    .cartao-pedido.entregue { border-left-color: #2E7D32; }
-    .cartao-pedido.cancelado { border-left-color: #C62828; }
-
-    .pedido-cabecalho {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 0.8rem;
-      margin-bottom: 0.8rem;
+    .aviso-erro { background:#FFEBEE; border-color:#EF9A9A; color:#B71C1C; }
+    .aviso-config code { background:#f5e6c8; padding:0.15rem 0.4rem; border-radius:4px; font-size:0.85rem; }
+    .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:1rem; margin-bottom:1.8rem; }
+    .stat-card { background:#fff; border-radius:12px; padding:1.1rem 1.2rem; box-shadow:var(--sombra); text-align:center; }
+    .stat-card .numero { font-size:1.7rem; font-weight:700; color:var(--cor-principal); }
+    .stat-card .label { font-size:0.8rem; color:#777; margin-top:0.2rem; }
+    .lista-pedidos { display:flex; flex-direction:column; gap:1rem; }
+    .cartao-pedido { background:#fff; border-radius:14px; box-shadow:var(--sombra); overflow:hidden; border:1px solid rgba(93,58,26,0.08); }
+    .cartao-pedido-topo {
+      display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+      gap:0.6rem; padding:1rem 1.3rem; background:#FBF7F0; border-bottom:1px solid #f0e6d6;
     }
-    .pedido-numero {
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: var(--cor-principal);
-    }
-    .pedido-status {
-      display: inline-block;
-      padding: 0.25rem 0.7rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      background: #f0f0f0;
-    }
-    .pedido-info {
-      font-size: 0.9rem;
-      color: #555;
-      margin-bottom: 0.6rem;
-    }
-    .pedido-itens {
-      font-size: 0.88rem;
-      background: #fafafa;
-      padding: 0.7rem 1rem;
-      border-radius: 8px;
-      margin: 0.7rem 0;
-    }
-    .pedido-total {
-      font-weight: 700;
-      font-size: 1.05rem;
-      color: var(--cor-secundaria);
-    }
-    .acoes-status {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 0.9rem;
-    }
-    .acoes-status button {
-      border: none;
-      padding: 0.4rem 0.8rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .acoes-status button:hover { opacity: 0.85; }
-    .btn-confirmado { background: #E3F2FD; color: #1565C0; }
-    .btn-preparando { background: #F3E5F5; color: #7B1FA2; }
-    .btn-pronto { background: #E8F5E9; color: #2E7D32; }
-    .btn-entregue { background: #C8E6C9; color: #1B5E20; }
-    .btn-cancelado { background: #FFEBEE; color: #C62828; }
-
-    .vazio {
-      text-align: center;
-      padding: 3rem;
-      color: #888;
-    }
-    .carregando {
-      text-align: center;
-      padding: 2rem;
-      color: var(--cor-principal);
-    }
+    .pedido-numero { font-weight:700; font-size:1.05rem; color:var(--cor-principal); }
+    .pedido-data { font-size:0.82rem; color:#888; }
+    .badge { display:inline-block; padding:0.28rem 0.75rem; border-radius:20px; font-size:0.78rem; font-weight:600; text-transform:uppercase; }
+    .badge-pendente{background:#FFF3CD;color:#856404;} .badge-confirmado{background:#D1ECF1;color:#0C5460;}
+    .badge-preparando{background:#E2D5F1;color:#5A2D82;} .badge-pronto{background:#D4EDDA;color:#155724;}
+    .badge-entregue{background:#C3E6CB;color:#0B3D0B;} .badge-cancelado{background:#F8D7DA;color:#721C24;}
+    .cartao-pedido-corpo { padding:1.1rem 1.3rem; }
+    .cliente-info { font-size:0.95rem; margin-bottom:0.7rem; line-height:1.5; }
+    .cliente-info strong { color:var(--cor-principal); }
+    .itens-lista { background:#FAFAFA; border-radius:8px; padding:0.8rem 1rem; font-size:0.88rem; margin-bottom:0.8rem; }
+    .pedido-total { font-size:1.1rem; font-weight:700; color:var(--cor-secundaria); margin-bottom:0.9rem; }
+    .obs { font-size:0.85rem; color:#666; font-style:italic; margin-bottom:0.8rem; }
+    .acoes { display:flex; flex-wrap:wrap; gap:0.45rem; }
+    .acoes button { border:none; padding:0.4rem 0.85rem; border-radius:20px; font-size:0.78rem; font-weight:600; cursor:pointer; }
+    .btn-confirmado{background:#D1ECF1;color:#0C5460;} .btn-preparando{background:#E2D5F1;color:#5A2D82;}
+    .btn-pronto{background:#D4EDDA;color:#155724;} .btn-entregue{background:#C3E6CB;color:#0B3D0B;}
+    .btn-cancelado{background:#F8D7DA;color:#721C24;}
+    .vazio,.carregando { text-align:center; padding:3.5rem 1.5rem; background:#fff; border-radius:14px; box-shadow:var(--sombra); color:#888; }
+    .carregando { color:var(--cor-principal); font-weight:500; }
+    @media(max-width:600px){ .admin-header{padding:0.8rem 1rem;} .stats{grid-template-columns:repeat(2,1fr);} }
   </style>
 </head>
 <body>
-
-  <header class="cabecalho">
-    <div class="cabecalho-conteudo">
-      <a href="../index.html" class="logo-area">
-        <img src="../imagens/logo.png" alt="Logo Ndongala" style="width:45px;height:45px;">
-        <div class="logo-texto">
-          <h1>Painel Admin</h1>
-          <span>Ndongala Sabor e Arte</span>
-        </div>
-      </a>
-      <a href="../index.html" style="color:var(--cor-creme); font-weight:500;">← Voltar ao site</a>
+  <header class="admin-header">
+    <div class="admin-brand">
+      <img src="../imagens/logo.png" alt="Ndongala">
+      <div>
+        <h1>Painel Admin</h1>
+        <span>Ndongala Sabor e Arte</span>
+      </div>
     </div>
+    <a href="../index.html" class="btn-voltar">← Voltar ao site</a>
   </header>
 
-  <div class="painel">
-    <h1>Pedidos Recebidos</h1>
-    <p style="color:#666; margin-bottom:1.5rem;">Gerencie os pedidos feitos pelo site.</p>
+  <main class="admin-container">
+    <div class="admin-titulo">
+      <div>
+        <h2>Pedidos</h2>
+        <p>Gerencie os pedidos recebidos pelo site</p>
+      </div>
+      <button class="btn-actualizar" onclick="carregarPedidos()">↻ Actualizar</button>
+    </div>
 
-    <div class="aviso-config" id="avisoConfig">
-      <strong>⚠ Configuração necessária</strong><br>
-      1. Crie um projecto no <a href="https://supabase.com" target="_blank">supabase.com</a><br>
-      2. Execute o ficheiro <code>supabase-schema-final.sql</code> no SQL Editor<br>
-      3. Copie a URL e a chave <code>anon</code> e cole em <code>js/supabase.js</code><br>
-      Depois recarregue esta página.
+    <div id="avisoArea"></div>
+
+    <div class="stats" id="statsBar" style="display:none;">
+      <div class="stat-card"><div class="numero" id="statTotal">0</div><div class="label">Total</div></div>
+      <div class="stat-card"><div class="numero" id="statPendente">0</div><div class="label">Pendentes</div></div>
+      <div class="stat-card"><div class="numero" id="statPreparando">0</div><div class="label">A preparar</div></div>
+      <div class="stat-card"><div class="numero" id="statEntregue">0</div><div class="label">Entregues</div></div>
     </div>
 
     <div id="contentorPedidos" class="lista-pedidos">
       <div class="carregando">A carregar pedidos...</div>
     </div>
-  </div>
+  </main>
 
-  <!-- Caminhos corrigidos -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase.js"></script>
   <script>
-    function formatarPreco(v) {
-      return Number(v).toLocaleString('pt-AO') + ' Kz';
+    function formatarPreco(v){ return Number(v).toLocaleString('pt-AO')+' Kz'; }
+    function formatarData(iso){
+      if(!iso) return '';
+      return new Date(iso).toLocaleString('pt-AO',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    }
+    function badgeClass(s){ return 'badge badge-'+(s||'pendente'); }
+    function badgeLabel(s){
+      return ({pendente:'Pendente',confirmado:'Confirmado',preparando:'A preparar',pronto:'Pronto',entregue:'Entregue',cancelado:'Cancelado'})[s]||s;
     }
 
-    function formatarData(iso) {
-      if (!iso) return '';
-      const d = new Date(iso);
-      return d.toLocaleString('pt-AO', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-    }
-
-    function badgeStatus(status) {
-      const map = {
-        pendente: 'Pendente',
-        confirmado: 'Confirmado',
-        preparando: 'Preparando',
-        pronto: 'Pronto',
-        entregue: 'Entregue',
-        cancelado: 'Cancelado'
-      };
-      return map[status] || status;
-    }
-
-    async function carregarPedidos() {
+    async function carregarPedidos(){
       const contentor = document.getElementById('contentorPedidos');
-      const aviso = document.getElementById('avisoConfig');
+      const avisoArea = document.getElementById('avisoArea');
+      const statsBar = document.getElementById('statsBar');
+      contentor.innerHTML = '<div class="carregando">A carregar pedidos...</div>';
+      avisoArea.innerHTML = '';
 
-      // Verificar se o Supabase já foi configurado
-      if (typeof SUPABASE_URL === 'undefined' || SUPABASE_URL.includes('SEU-PROJECTO')) {
-        contentor.innerHTML = '<div class="vazio">Configure o Supabase primeiro (veja o aviso acima).</div>';
+      if (typeof supabaseConfigurado !== 'function' || !supabaseConfigurado()) {
+        avisoArea.innerHTML = `<div class="aviso-config">
+          <strong>⚠ Supabase ainda não configurado</strong><br><br>
+          Abra o ficheiro <code>js/supabase.js</code> e cole:<br>
+          1. A URL do projecto<br>
+          2. A chave <strong>anon</strong> ou <strong>publishable</strong> (NÃO a secret)<br>
+          Depois faça commit, push e recarregue esta página.
+        </div>`;
+        contentor.innerHTML = '<div class="vazio">Configure o Supabase para ver os pedidos aqui.</div>';
         return;
       }
 
-      aviso.style.display = 'none';
       iniciarSupabase();
+      const resultado = await buscarPedidos();
 
-      const pedidos = await buscarPedidos();
-
-      if (!pedidos || pedidos.length === 0) {
-        contentor.innerHTML = '<div class="vazio">Ainda não há pedidos registados.</div>';
+      if (resultado.erro && resultado.erro !== 'nao_configurado') {
+        avisoArea.innerHTML = `<div class="aviso-erro">
+          <strong>Erro ao ligar ao Supabase</strong><br>
+          ${resultado.erro}<br><br>
+          Verifique: chave correcta, tabelas criadas (SQL), e políticas RLS.
+        </div>`;
+        contentor.innerHTML = '<div class="vazio">Não foi possível carregar os pedidos.</div>';
         return;
       }
+
+      const pedidos = resultado.dados || [];
+
+      if (pedidos.length === 0) {
+        statsBar.style.display = 'none';
+        contentor.innerHTML = '<div class="vazio">Ainda não há pedidos.<br>Quando um cliente pedir no site, aparece aqui.</div>';
+        return;
+      }
+
+      document.getElementById('statTotal').textContent = pedidos.length;
+      document.getElementById('statPendente').textContent = pedidos.filter(p=>p.status==='pendente').length;
+      document.getElementById('statPreparando').textContent = pedidos.filter(p=>p.status==='preparando'||p.status==='confirmado').length;
+      document.getElementById('statEntregue').textContent = pedidos.filter(p=>p.status==='entregue').length;
+      statsBar.style.display = 'grid';
 
       contentor.innerHTML = pedidos.map(p => `
-        <article class="cartao-pedido ${p.status}">
-          <div class="pedido-cabecalho">
-            <span class="pedido-numero">${p.numero_pedido}</span>
-            <span class="pedido-status">${badgeStatus(p.status)}</span>
+        <article class="cartao-pedido">
+          <div class="cartao-pedido-topo">
+            <div>
+              <div class="pedido-numero">${p.numero_pedido}</div>
+              <div class="pedido-data">${formatarData(p.criado_em)}</div>
+            </div>
+            <span class="${badgeClass(p.status)}">${badgeLabel(p.status)}</span>
           </div>
-          <div class="pedido-info">
-            <strong>${p.nome_cliente}</strong> · ${p.telefone}<br>
-            ${p.localizacao ? '📍 ' + p.localizacao + '<br>' : ''}
-            ${p.tipo_entrega === 'entrega' ? '🛵 Entrega' : '🏪 Retirada'}
-            ${p.endereco ? ' · ' + p.endereco : ''}<br>
-            <small>${formatarData(p.criado_em)}</small>
-          </div>
-          <div class="pedido-itens">
-            ${(p.itens_pedido || []).map(i =>
-              `• ${i.nome_produto} × ${i.quantidade} = ${formatarPreco(i.total)}`
-            ).join('<br>')}
-          </div>
-          <div class="pedido-total">Total: ${formatarPreco(p.total)}</div>
-          ${p.observacoes ? `<div style="font-size:0.85rem;color:#666;margin-top:0.4rem;">Obs: ${p.observacoes}</div>` : ''}
-          <div class="acoes-status">
-            <button class="btn-confirmado" onclick="mudarStatus('${p.id}', 'confirmado')">Confirmado</button>
-            <button class="btn-preparando" onclick="mudarStatus('${p.id}', 'preparando')">Preparando</button>
-            <button class="btn-pronto" onclick="mudarStatus('${p.id}', 'pronto')">Pronto</button>
-            <button class="btn-entregue" onclick="mudarStatus('${p.id}', 'entregue')">Entregue</button>
-            <button class="btn-cancelado" onclick="mudarStatus('${p.id}', 'cancelado')">Cancelar</button>
+          <div class="cartao-pedido-corpo">
+            <div class="cliente-info">
+              <strong>${p.nome_cliente}</strong> · ${p.telefone}<br>
+              ${p.localizacao ? '📍 '+p.localizacao+'<br>' : ''}
+              ${p.tipo_entrega==='entrega' ? '🛵 Entrega' : '🏪 Retirada'}
+              ${p.endereco ? ' · '+p.endereco : ''}
+            </div>
+            <div class="itens-lista">
+              ${(p.itens_pedido||[]).map(i=>`<div>• ${i.nome_produto} × ${i.quantidade} — ${formatarPreco(i.total)}</div>`).join('')}
+            </div>
+            <div class="pedido-total">Total: ${formatarPreco(p.total)}</div>
+            ${p.observacoes ? `<div class="obs">Obs: ${p.observacoes}</div>` : ''}
+            <div class="acoes">
+              <button class="btn-confirmado" onclick="mudarStatus('${p.id}','confirmado')">Confirmado</button>
+              <button class="btn-preparando" onclick="mudarStatus('${p.id}','preparando')">A preparar</button>
+              <button class="btn-pronto" onclick="mudarStatus('${p.id}','pronto')">Pronto</button>
+              <button class="btn-entregue" onclick="mudarStatus('${p.id}','entregue')">Entregue</button>
+              <button class="btn-cancelado" onclick="mudarStatus('${p.id}','cancelado')">Cancelar</button>
+            </div>
           </div>
         </article>
       `).join('');
     }
 
-    async function mudarStatus(id, status) {
+    async function mudarStatus(id, status){
       const ok = await actualizarStatusPedido(id, status);
-      if (ok) {
-        carregarPedidos();
-      } else {
-        alert('Erro ao actualizar o status. Verifique a configuração do Banco de dados );
-      }
+      if(ok) carregarPedidos();
+      else alert('Erro ao actualizar. Verifique a ligação e as permissões RLS.');
     }
 
     document.addEventListener('DOMContentLoaded', carregarPedidos);
