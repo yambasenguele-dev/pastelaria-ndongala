@@ -5,7 +5,7 @@
 ============================================ */
 
 const SUPABASE_URL = 'https://btlyloiuqmgvhsnczmyt.supabase.co';      // ← coloque a URL
-const SUPABASE_ANON_KEY = 'sb_publishable_IkrGbRiJnA5pD3BmOoISuQ_l6OXiCql';             // ← coloque a chave anon
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0bHlsb2l1cW1ndmhzbmN6bXl0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk1MTQ0NTksImV4cCI6MjEwNTA5MDQ1OX0.xG1kQjac_pKpTfOEAWKuFUg5uSY8uqp9GWiKqHQelAc';             // ← coloque a chave anon
 
 // Cliente global (só é criado se as chaves estiverem preenchidas)
 let supabaseCliente = null;
