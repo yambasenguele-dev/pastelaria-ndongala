@@ -4,8 +4,8 @@
    valores do seu projecto Supabase.
 ============================================ */
 
-const SUPABASE_URL = 'https://SEU-PROJECTO.supabase.co';      // ← coloque a URL
-const SUPABASE_ANON_KEY = 'SUA-CHAVE-ANON-AQUI';             // ← coloque a chave anon
+const SUPABASE_URL = 'https://btlyloiuqmgvhsnczmyt.supabase.co';      // ← coloque a URL
+const SUPABASE_ANON_KEY = 'sb_publishable_IkrGbRiJnA5pD3BmOoISuQ_l6OXiCql';             // ← coloque a chave anon
 
 // Cliente global (só é criado se as chaves estiverem preenchidas)
 let supabaseCliente = null;
