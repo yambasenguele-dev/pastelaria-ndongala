@@ -1,50 +1,43 @@
 /* ============================================
    CONFIGURAÇÃO SUPABASE - NDONGALA
-   Substitua as duas constantes abaixo pelos
-   valores do seu projecto Supabase.
 ============================================ */
 
-const SUPABASE_URL = 'https://btlyloiuqmgvhsnczmyt.supabase.co';      // ← coloque a URL
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0bHlsb2l1cW1ndmhzbmN6bXl0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk1MTQ0NTksImV4cCI6MjEwNTA5MDQ1OX0.xG1kQjac_pKpTfOEAWKuFUg5uSY8uqp9GWiKqHQelAc';             // ← coloque a chave anon
+const SUPABASE_URL = 'https://btlyloiuqmgvhsnczmyt.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0bHlsb2l1cW1ndmhzbmN6bXl0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk1MTQ0NTksImV4cCI6MjEwNTA5MDQ1OX0.xG1kQjac_pKpTfOEAWKuFUg5uSY8uqp9GWiKqHQelAc';
 
-// Cliente global (só é criado se as chaves estiverem preenchidas)
 let supabaseCliente = null;
 
-function iniciarSupabase() {
-  if (SUPABASE_URL.includes('SEU-PROJECTO') || SUPABASE_ANON_KEY.includes('SUA-CHAVE')) {
-    console.warn('Supabase ainda não configurado. Os pedidos serão enviados só para o WhatsApp.');
-    return null;
-  }
+function supabaseConfigurado() {
+  return !!(SUPABASE_URL && SUPABASE_ANON_KEY && SUPABASE_ANON_KEY.length > 40);
+}
 
+function iniciarSupabase() {
+  if (!supabaseConfigurado()) return null;
   if (typeof supabase === 'undefined') {
     console.error('Biblioteca supabase-js não carregada.');
     return null;
   }
-
-  supabaseCliente = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  console.log('Supabase ligado com sucesso.');
+  if (!supabaseCliente) {
+    supabaseCliente = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log('Supabase ligado.');
+  }
   return supabaseCliente;
 }
 
-/**
- * Grava o pedido na base de dados Supabase
- * Retorna o número do pedido ou null em caso de erro
- */
+/* ========== PEDIDOS ========== */
+
 async function gravarPedidoSupabase(dadosPedido) {
-  if (!supabaseCliente) {
-    supabaseCliente = iniciarSupabase();
-  }
-  if (!supabaseCliente) return null;
+  const client = iniciarSupabase();
+  if (!client) return null;
 
   try {
-    // 1. Inserir o pedido principal
-    const { data: pedido, error: erroPedido } = await supabaseCliente
+    const { data: pedido, error } = await client
       .from('pedidos')
       .insert([{
         numero_pedido: dadosPedido.numeroPedido,
         nome_cliente: dadosPedido.nome,
         telefone: dadosPedido.telefone,
-        localizacao: dadosPedido.localizacao,
+        localizacao: dadosPedido.localizacao || null,
         tipo_entrega: dadosPedido.tipo,
         endereco: dadosPedido.endereco || null,
         observacoes: dadosPedido.observacoes || null,
@@ -56,81 +49,141 @@ async function gravarPedidoSupabase(dadosPedido) {
       .select()
       .single();
 
-    if (erroPedido) {
-      console.error('Erro ao gravar pedido:', erroPedido);
+    if (error) {
+      console.error('Erro pedido:', error);
       return null;
     }
 
-    // 2. Inserir os itens do pedido
     const itens = dadosPedido.itens.map(item => ({
       pedido_id: pedido.id,
-      produto_id: item.id,
+      produto_id: String(item.id),
       nome_produto: item.nome,
       preco_unitario: item.preco,
       quantidade: item.quantidade,
       total: item.preco * item.quantidade
     }));
 
-    const { error: erroItens } = await supabaseCliente
-      .from('itens_pedido')
-      .insert(itens);
-
-    if (erroItens) {
-      console.error('Erro ao gravar itens:', erroItens);
-      // O pedido principal já foi criado, mas os itens falharam
-    }
-
+    await client.from('itens_pedido').insert(itens);
     return pedido.numero_pedido;
   } catch (err) {
-    console.error('Erro geral ao gravar no Supabase:', err);
+    console.error(err);
     return null;
   }
 }
 
-/**
- * Busca todos os pedidos (para o painel admin)
- */
 async function buscarPedidos() {
-  if (!supabaseCliente) {
-    supabaseCliente = iniciarSupabase();
-  }
-  if (!supabaseCliente) return [];
+  const client = iniciarSupabase();
+  if (!client) return { erro: 'nao_configurado', dados: [] };
 
-  const { data, error } = await supabaseCliente
+  const { data, error } = await client
     .from('pedidos')
-    .select(`
-      *,
-      itens_pedido (*)
-    `)
+    .select('*, itens_pedido(*)')
     .order('criado_em', { ascending: false });
 
+  if (error) return { erro: error.message, dados: [] };
+  return { erro: null, dados: data || [] };
+}
+
+async function actualizarStatusPedido(idPedido, novoStatus) {
+  const client = iniciarSupabase();
+  if (!client) return false;
+
+  const { error } = await client
+    .from('pedidos')
+    .update({ status: novoStatus, actualizado_em: new Date().toISOString() })
+    .eq('id', idPedido);
+
+  return !error;
+}
+
+/* ========== PRODUTOS (CRUD) ========== */
+
+async function buscarProdutosDB() {
+  const client = iniciarSupabase();
+  if (!client) return { erro: 'nao_configurado', dados: [] };
+
+  const { data, error } = await client
+    .from('produtos')
+    .select('*')
+    .order('criado_em', { ascending: false });
+
+  if (error) return { erro: error.message, dados: [] };
+  return { erro: null, dados: data || [] };
+}
+
+async function buscarProdutosActivos() {
+  const client = iniciarSupabase();
+  if (!client) return [];
+
+  const { data, error } = await client
+    .from('produtos')
+    .select('*')
+    .eq('activo', true)
+    .order('nome');
+
   if (error) {
-    console.error('Erro ao buscar pedidos:', error);
+    console.error('Erro produtos activos:', error);
     return [];
   }
   return data || [];
 }
 
-/**
- * Actualiza o status de um pedido
- */
-async function actualizarStatusPedido(idPedido, novoStatus) {
-  if (!supabaseCliente) {
-    supabaseCliente = iniciarSupabase();
-  }
-  if (!supabaseCliente) return false;
+async function criarProduto(produto) {
+  const client = iniciarSupabase();
+  if (!client) return { ok: false, erro: 'Supabase não ligado' };
 
-  const { error } = await supabaseCliente
-    .from('pedidos')
-    .update({ 
-      status: novoStatus,
+  const { data, error } = await client
+    .from('produtos')
+    .insert([{
+      nome: produto.nome,
+      descricao: produto.descricao || null,
+      preco: Number(produto.preco),
+      imagem_url: produto.imagem_url || null,
+      destaque: !!produto.destaque,
+      activo: produto.activo !== false,
+      slug: (produto.nome || '').toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+    }])
+    .select()
+    .single();
+
+  if (error) return { ok: false, erro: error.message };
+  return { ok: true, dados: data };
+}
+
+async function actualizarProduto(id, produto) {
+  const client = iniciarSupabase();
+  if (!client) return { ok: false, erro: 'Supabase não ligado' };
+
+  const { data, error } = await client
+    .from('produtos')
+    .update({
+      nome: produto.nome,
+      descricao: produto.descricao || null,
+      preco: Number(produto.preco),
+      imagem_url: produto.imagem_url || null,
+      destaque: !!produto.destaque,
+      activo: produto.activo !== false,
       actualizado_em: new Date().toISOString()
     })
-    .eq('id', idPedido);
+    .eq('id', id)
+    .select()
+    .single();
 
-  if (error) {
-    console.error('Erro ao actualizar status:', error);
-    return false;
-  }
-  return true;
+  if (error) return { ok: false, erro: error.message };
+  return { ok: true, dados: data };
+}
+
+async function eliminarProduto(id) {
+  const client = iniciarSupabase();
+  if (!client) return { ok: false, erro: 'Supabase não ligado' };
+
+  const { error } = await client
+    .from('produtos')
+    .delete()
+    .eq('id', id);
+
+  if (error) return { ok: false, erro: error.message };
+  return { ok: true };
 }
