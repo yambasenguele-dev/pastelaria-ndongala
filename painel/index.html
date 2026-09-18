@@ -121,6 +121,14 @@
       <div class="campo"><label>Nome *</label><input type="text" id="prodNome" required></div>
       <div class="campo"><label>Descrição</label><textarea id="prodDesc"></textarea></div>
       <div class="campo"><label>Preço (Kz) *</label><input type="number" id="prodPreco" min="0" step="100" required></div>
+      <div class="campo"><label>Categoria *</label>
+        <select id="prodCat" style="width:100%;padding:.55rem .7rem;border:1px solid #ddd;border-radius:8px;font-size:.92rem">
+          <option value="bolos">Bolos</option>
+          <option value="salgados">Salgados</option>
+          <option value="doces">Doces</option>
+          <option value="paes">Pães e Outros</option>
+        </select>
+      </div>
       <div class="campo"><label>URL da imagem</label><input type="text" id="prodImg" placeholder="imagens/produtos/bolo.jpg ou https://..."></div>
       <div class="campo check-row">
         <label><input type="checkbox" id="prodDestaque"> Destaque</label>
@@ -137,6 +145,7 @@
   <script src="../js/supabase.js"></script>
   <script>
     function fmt(v){return Number(v).toLocaleString('pt-AO')+' Kz'}
+    function imgUrl(u){if(!u)return '/imagens/logo.png';if(u.indexOf('http')===0||u.charAt(0)==='/')return u;return '/'+u;}
     function fmtData(iso){
       if(!iso)return '';
       return new Date(iso).toLocaleString('pt-AO',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
@@ -190,7 +199,7 @@
       var prods=r.dados||[];
       if(!prods.length){el.innerHTML='<div class="vazio">Nenhum produto. Clique em "+ Novo produto".</div>';return}
       el.innerHTML=prods.map(function(p){
-        return '<div class="prod-card"><img src="'+(p.imagem_url||'../imagens/logo.png')+'" alt="'+p.nome+'" onerror="this.src=\'../imagens/logo.png\'"><div class="info"><h3>'+p.nome+' '+(!p.activo?'<span class="tag-off">Inactivo</span>':'')+'</h3><div class="desc">'+(p.descricao||'')+'</div><div class="preco">'+fmt(p.preco)+'</div><div class="acoes-prod"><button class="btn-edit" onclick="editarProdutoObj(\''+p.id+'\')">Editar</button><button class="btn-del" onclick="apagarProduto(\''+p.id+'\',\''+(p.nome||'').replace(/'/g,"\\'")+'\')">Eliminar</button></div></div></div>';
+        return '<div class="prod-card"><img src="'+imgUrl(p.imagem_url)+'" alt="'+p.nome+'" onerror="this.src=\'/imagens/logo.png\'"><div class="info"><h3>'+p.nome+' '+(!p.activo?'<span class="tag-off">Inactivo</span>':'')+'</h3><div class="desc">'+(p.descricao||'')+'</div><div class="preco">'+fmt(p.preco)+'</div><div class="acoes-prod"><button class="btn-edit" onclick="editarProdutoObj(\''+p.id+'\')">Editar</button><button class="btn-del" onclick="apagarProduto(\''+p.id+'\',\''+(p.nome||'').replace(/'/g,"\\'")+'\')">Eliminar</button></div></div></div>';
       }).join('');
       window._prodsCache=prods;
     }
@@ -203,6 +212,7 @@
       document.getElementById('prodDesc').value=p.descricao||'';
       document.getElementById('prodPreco').value=p.preco||'';
       document.getElementById('prodImg').value=p.imagem_url||'';
+      document.getElementById('prodCat').value=p.categoria||'bolos';
       document.getElementById('prodDestaque').checked=!!p.destaque;
       document.getElementById('prodActivo').checked=p.activo!==false;
       document.getElementById('modalProduto').classList.remove('escondido');
@@ -214,6 +224,7 @@
       document.getElementById('prodDesc').value='';
       document.getElementById('prodPreco').value='';
       document.getElementById('prodImg').value='';
+      document.getElementById('prodCat').value='bolos';
       document.getElementById('prodDestaque').checked=false;
       document.getElementById('prodActivo').checked=true;
       document.getElementById('modalProduto').classList.remove('escondido');
@@ -225,7 +236,8 @@
         nome:document.getElementById('prodNome').value.trim(),
         descricao:document.getElementById('prodDesc').value.trim(),
         preco:document.getElementById('prodPreco').value,
-        imagem_url:document.getElementById('prodImg').value.trim(),
+        imagem_url:(function(u){u=u.trim();if(!u)return '';if(u.indexOf('http')===0||u.charAt(0)==='/')return u;return '/'+u;})(document.getElementById('prodImg').value),
+        categoria:document.getElementById('prodCat').value,
         destaque:document.getElementById('prodDestaque').checked,
         activo:document.getElementById('prodActivo').checked
       };
