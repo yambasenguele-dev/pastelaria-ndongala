@@ -139,6 +139,7 @@ async function criarProduto(produto) {
       descricao: produto.descricao || null,
       preco: Number(produto.preco),
       imagem_url: produto.imagem_url || null,
+      categoria: produto.categoria || 'outros',
       destaque: !!produto.destaque,
       activo: produto.activo !== false,
       slug: (produto.nome || '').toLowerCase()
@@ -163,6 +164,7 @@ async function actualizarProduto(id, produto) {
       descricao: produto.descricao || null,
       preco: Number(produto.preco),
       imagem_url: produto.imagem_url || null,
+      categoria: produto.categoria || 'outros',
       destaque: !!produto.destaque,
       activo: produto.activo !== false,
       actualizado_em: new Date().toISOString()
@@ -187,3 +189,23 @@ async function eliminarProduto(id) {
   if (error) return { ok: false, erro: error.message };
   return { ok: true };
 }
+
+async function carregarImagemProduto(ficheiro) {
+  const client = iniciarSupabase();
+  if (!client) return { ok: false, erro: 'Supabase não ligado' };
+  if (!ficheiro) return { ok: false, erro: 'Nenhum ficheiro' };
+
+  const ext = (ficheiro.name.split('.').pop() || 'jpg').toLowerCase();
+  const nome = Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.' + ext;
+
+  const { error } = await client.storage
+    .from('produtos')
+    .upload(nome, ficheiro, { cacheControl: '3600', upsert: false });
+
+  if (error) return { ok: false, erro: error.message };
+
+  const { data } = client.storage.from('produtos').getPublicUrl(nome);
+  return { ok: true, url: data.publicUrl };
+}
+
+
