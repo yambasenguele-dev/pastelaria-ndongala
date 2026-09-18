@@ -5,13 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Painel Admin | Ndongala Sabor e Arte</title>
   <meta name="robots" content="noindex, nofollow">
-  <link rel="icon" href="../favicon.ico" sizes="any">
-  <link rel="stylesheet" href="../css/estilos.css">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="/css/estilos.css">
   <style>
-    :root {
-      --c1:#5D3A1A; --c2:#8B5A2B; --dourado:#C9A227; --creme:#F5E6C8;
-      --sombra:0 4px 20px rgba(93,58,26,.12);
-    }
+    :root{--c1:#5D3A1A;--c2:#8B5A2B;--dourado:#C9A227;--creme:#F5E6C8;--sombra:0 4px 20px rgba(93,58,26,.12)}
     *{box-sizing:border-box}
     body{background:#F7F2EA;margin:0;font-family:'Segoe UI',system-ui,sans-serif;color:#2C1A0E}
     .hdr{background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;padding:.9rem 1.4rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--sombra)}
@@ -29,13 +26,12 @@
     .topo h2{margin:0;font-size:1.45rem;color:var(--c1)}
     .topo p{margin:.15rem 0 0;color:#666;font-size:.9rem}
     .btn{border:none;padding:.5rem 1.1rem;border-radius:50px;font-weight:600;cursor:pointer;font-size:.88rem}
-    .btn-p{background:var(--c1);color:var(--creme)}.btn-p:hover{background:var(--c2)}
-    .btn-s{background:#fff;color:var(--c1);border:1px solid #ddd}
+    .btn-p{background:var(--c1);color:var(--creme)}.btn-s{background:#fff;color:var(--c1);border:1px solid #ddd}
     .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.9rem;margin-bottom:1.4rem}
     .stat{background:#fff;border-radius:12px;padding:1rem;text-align:center;box-shadow:var(--sombra)}
     .stat .n{font-size:1.6rem;font-weight:700;color:var(--c1)}.stat .l{font-size:.78rem;color:#777}
     .lista{display:flex;flex-direction:column;gap:.9rem}
-    .card{background:#fff;border-radius:14px;box-shadow:var(--sombra);overflow:hidden;border:1px solid rgba(93,58,26,.08)}
+    .card{background:#fff;border-radius:14px;box-shadow:var(--sombra);overflow:hidden}
     .card-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem;padding:.9rem 1.2rem;background:#FBF7F0;border-bottom:1px solid #f0e6d6}
     .card-body{padding:1rem 1.2rem}
     .badge{display:inline-block;padding:.25rem .7rem;border-radius:20px;font-size:.75rem;font-weight:600;text-transform:uppercase}
@@ -63,38 +59,37 @@
     .tag-off{background:#eee;color:#888;font-size:.7rem;padding:.15rem .5rem;border-radius:10px}
     .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem}
     .modal-bg.escondido{display:none}
-    .modal{background:#fff;border-radius:16px;padding:1.5rem;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 10px 40px rgba(0,0,0,.2)}
+    .modal{background:#fff;border-radius:16px;padding:1.5rem;width:100%;max-width:480px;max-height:90vh;overflow-y:auto}
     .modal h3{margin:0 0 1rem;color:var(--c1)}
     .campo{margin-bottom:.9rem}
     .campo label{display:block;font-weight:600;font-size:.85rem;margin-bottom:.3rem;color:#444}
-    .campo input,.campo textarea{width:100%;padding:.55rem .7rem;border:1px solid #ddd;border-radius:8px;font-size:.92rem;font-family:inherit}
+    .campo input,.campo textarea,.campo select{width:100%;padding:.55rem .7rem;border:1px solid #ddd;border-radius:8px;font-size:.92rem;font-family:inherit}
     .campo textarea{min-height:70px;resize:vertical}
     .check-row{display:flex;gap:1.2rem;align-items:center}
     .check-row label{font-weight:500;display:flex;align-items:center;gap:.35rem;cursor:pointer}
-    .modal-btns{display:flex;gap:.6rem;margin-top:1.2rem}
-    .modal-btns button{flex:1}
+    .modal-btns{display:flex;gap:.6rem;margin-top:1.2rem}.modal-btns button{flex:1}
   </style>
 </head>
 <body>
   <header class="hdr">
     <div class="brand">
-      <img src="../imagens/logo.png" alt="Logo">
+      <img src="/imagens/logo.png" alt="Logo">
       <div><h1>Painel Admin</h1><span>Ndongala Sabor e Arte</span></div>
     </div>
-    <a href="../index.html" class="btn-back">← Site</a>
+    <a href="/index.html" class="btn-back">← Site</a>
   </header>
 
   <div class="wrap">
     <div class="tabs">
-      <button class="tab activo" data-tab="pedidos" onclick="mudarTab('pedidos')">Pedidos</button>
-      <button class="tab" data-tab="produtos" onclick="mudarTab('produtos')">Produtos</button>
+      <button type="button" class="tab activo" id="tabPedidos">Pedidos</button>
+      <button type="button" class="tab" id="tabProdutos">Produtos</button>
     </div>
     <div id="msgArea"></div>
 
     <section id="sec-pedidos" class="sec activa">
       <div class="topo">
         <div><h2>Pedidos</h2><p>Pedidos feitos pelo site</p></div>
-        <button class="btn btn-p" onclick="carregarPedidos()">↻ Actualizar</button>
+        <button type="button" class="btn btn-p" id="btnActPedidos">↻ Actualizar</button>
       </div>
       <div class="stats" id="statsBar" style="display:none">
         <div class="stat"><div class="n" id="stTotal">0</div><div class="l">Total</div></div>
@@ -108,7 +103,7 @@
     <section id="sec-produtos" class="sec">
       <div class="topo">
         <div><h2>Produtos</h2><p>Adicionar, editar ou remover produtos</p></div>
-        <button class="btn btn-p" onclick="abrirModalProduto()">+ Novo produto</button>
+        <button type="button" class="btn btn-p" id="btnNovoProd">+ Novo produto</button>
       </div>
       <div id="listaProdutos" class="prod-grid"><div class="load">A carregar...</div></div>
     </section>
@@ -118,20 +113,21 @@
     <div class="modal">
       <h3 id="modalTitulo">Novo produto</h3>
       <input type="hidden" id="prodId">
-      <div class="campo"><label>Nome *</label><input type="text" id="prodNome" required></div>
+      <div class="campo"><label>Nome *</label><input type="text" id="prodNome"></div>
       <div class="campo"><label>Descrição</label><textarea id="prodDesc"></textarea></div>
-      <div class="campo"><label>Preço (Kz) *</label><input type="number" id="prodPreco" min="0" step="100" required></div>
+      <div class="campo"><label>Preço (Kz) *</label><input type="number" id="prodPreco" min="0" step="100"></div>
       <div class="campo"><label>Categoria *</label>
-        <select id="prodCat" style="width:100%;padding:.55rem .7rem;border:1px solid #ddd;border-radius:8px;font-size:.92rem">
+        <select id="prodCat">
           <option value="bolos">Bolos</option>
           <option value="salgados">Salgados</option>
           <option value="doces">Doces</option>
           <option value="paes">Pães e Outros</option>
         </select>
       </div>
-      <div class="campo"><label>Imagem do produto</label>
-        <input type="file" id="prodFicheiro" accept="image/*" style="width:100%;padding:.4rem 0;font-size:.9rem">
-        <small style="color:#888;font-size:.78rem">Escolha uma foto do telemóvel ou computador (máx. 5 MB)</small>
+      <div class="campo">
+        <label>Imagem do produto</label>
+        <input type="file" id="prodFicheiro" accept="image/*">
+        <small style="color:#888;font-size:.78rem">Foto do telemóvel ou computador (máx. 5 MB)</small>
         <div id="prodImgPreview" style="margin-top:.6rem;display:none">
           <img id="prodImgThumb" src="" alt="Pré-visualização" style="max-width:100%;max-height:140px;border-radius:8px;object-fit:cover">
         </div>
@@ -142,161 +138,212 @@
         <label><input type="checkbox" id="prodActivo" checked> Activo</label>
       </div>
       <div class="modal-btns">
-        <button class="btn btn-s" onclick="fecharModal()">Cancelar</button>
-        <button class="btn btn-p" onclick="guardarProduto()">Guardar</button>
+        <button type="button" class="btn btn-s" id="btnCancelar">Cancelar</button>
+        <button type="button" class="btn btn-p" id="btnGuardar">Guardar</button>
       </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="../js/supabase.js"></script>
+  <script src="/js/supabase.js"></script>
   <script>
-    function fmt(v){return Number(v).toLocaleString('pt-AO')+' Kz'}
-    function imgUrl(u){if(!u)return '/imagens/logo.png';if(u.indexOf('http')===0||u.charAt(0)==='/')return u;return '/'+u;}
-    function fmtData(iso){
-      if(!iso)return '';
-      return new Date(iso).toLocaleString('pt-AO',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  (function () {
+    function fmt(v) { return Number(v).toLocaleString('pt-AO') + ' Kz'; }
+    function fmtData(iso) {
+      if (!iso) return '';
+      return new Date(iso).toLocaleString('pt-AO', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
     }
-    function msg(texto, tipo){
-      document.getElementById('msgArea').innerHTML = '<div class="'+(tipo==='erro'?'aviso':'ok-msg')+'">'+texto+'</div>';
-      setTimeout(function(){document.getElementById('msgArea').innerHTML=''},5000);
+    function imgUrl(u) {
+      if (!u) return '/imagens/logo.png';
+      if (u.indexOf('http') === 0 || u.charAt(0) === '/') return u;
+      return '/' + u;
     }
-    function mudarTab(nome){
-      document.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('activo',t.dataset.tab===nome)});
-      document.querySelectorAll('.sec').forEach(function(s){s.classList.toggle('activa',s.id==='sec-'+nome)});
-      if(nome==='produtos') carregarProdutos();
-      if(nome==='pedidos') carregarPedidos();
+    function msg(texto, tipo) {
+      var el = document.getElementById('msgArea');
+      el.innerHTML = '<div class="' + (tipo === 'erro' ? 'aviso' : 'ok-msg') + '">' + texto + '</div>';
+      setTimeout(function () { el.innerHTML = ''; }, 5000);
     }
 
-    async function carregarPedidos(){
-      var el=document.getElementById('listaPedidos');
-      el.innerHTML='<div class="load">A carregar...</div>';
-      if(typeof iniciarSupabase!=='function'){el.innerHTML='<div class="vazio">supabase.js nao carregou</div>';return}
-      iniciarSupabase();
-      var r=await buscarPedidos();
-      if(r.erro){el.innerHTML='<div class="vazio">Erro: '+r.erro+'</div>';return}
-      var pedidos=r.dados||[];
-      if(!pedidos.length){
-        document.getElementById('statsBar').style.display='none';
-        el.innerHTML='<div class="vazio">Ainda nao ha pedidos.</div>';return;
+    function mudarTab(nome) {
+      document.getElementById('tabPedidos').classList.toggle('activo', nome === 'pedidos');
+      document.getElementById('tabProdutos').classList.toggle('activo', nome === 'produtos');
+      document.getElementById('sec-pedidos').classList.toggle('activa', nome === 'pedidos');
+      document.getElementById('sec-produtos').classList.toggle('activa', nome === 'produtos');
+      if (nome === 'produtos') carregarProdutos();
+      if (nome === 'pedidos') carregarPedidos();
+    }
+
+    async function carregarPedidos() {
+      var el = document.getElementById('listaPedidos');
+      el.innerHTML = '<div class="load">A carregar...</div>';
+      try {
+        if (typeof iniciarSupabase !== 'function') {
+          el.innerHTML = '<div class="vazio">Erro: supabase.js não carregou. Verifique o caminho /js/supabase.js</div>';
+          return;
+        }
+        iniciarSupabase();
+        var r = await buscarPedidos();
+        if (r.erro) {
+          el.innerHTML = '<div class="vazio">Erro: ' + r.erro + '</div>';
+          return;
+        }
+        var pedidos = r.dados || [];
+        if (!pedidos.length) {
+          document.getElementById('statsBar').style.display = 'none';
+          el.innerHTML = '<div class="vazio">Ainda não há pedidos.</div>';
+          return;
+        }
+        document.getElementById('stTotal').textContent = pedidos.length;
+        document.getElementById('stPend').textContent = pedidos.filter(function (p) { return p.status === 'pendente'; }).length;
+        document.getElementById('stPrep').textContent = pedidos.filter(function (p) { return p.status === 'preparando' || p.status === 'confirmado'; }).length;
+        document.getElementById('stEnt').textContent = pedidos.filter(function (p) { return p.status === 'entregue'; }).length;
+        document.getElementById('statsBar').style.display = 'grid';
+        var labels = { pendente:'Pendente', confirmado:'Confirmado', preparando:'A preparar', pronto:'Pronto', entregue:'Entregue', cancelado:'Cancelado' };
+        el.innerHTML = pedidos.map(function (p) {
+          var itens = (p.itens_pedido || []).map(function (i) {
+            return '• ' + i.nome_produto + ' × ' + i.quantidade + ' — ' + fmt(i.total);
+          }).join('<br>');
+          return '<article class="card"><div class="card-top"><div><strong style="color:var(--c1)">' + p.numero_pedido + '</strong><br><small style="color:#888">' + fmtData(p.criado_em) + '</small></div><span class="badge b-' + p.status + '">' + (labels[p.status] || p.status) + '</span></div><div class="card-body"><div style="margin-bottom:.6rem;line-height:1.5"><strong>' + p.nome_cliente + '</strong> · ' + p.telefone + '<br>' + (p.localizacao ? '📍 ' + p.localizacao + '<br>' : '') + (p.tipo_entrega === 'entrega' ? '🛵 Entrega' : '🏪 Retirada') + (p.endereco ? ' · ' + p.endereco : '') + '</div><div style="background:#fafafa;padding:.6rem .9rem;border-radius:8px;font-size:.86rem;margin-bottom:.6rem">' + itens + '</div><div style="font-weight:700;color:var(--c2);margin-bottom:.5rem">Total: ' + fmt(p.total) + '</div>' + (p.observacoes ? '<div style="font-size:.84rem;color:#666;font-style:italic;margin-bottom:.5rem">Obs: ' + p.observacoes + '</div>' : '') + '<div class="acoes"><button type="button" class="bc" data-id="' + p.id + '" data-st="confirmado">Confirmado</button><button type="button" class="bp" data-id="' + p.id + '" data-st="preparando">A preparar</button><button type="button" class="br" data-id="' + p.id + '" data-st="pronto">Pronto</button><button type="button" class="be" data-id="' + p.id + '" data-st="entregue">Entregue</button><button type="button" class="bx" data-id="' + p.id + '" data-st="cancelado">Cancelar</button></div></div></article>';
+        }).join('');
+        el.querySelectorAll('.acoes button').forEach(function (btn) {
+          btn.addEventListener('click', function () { setStatus(btn.getAttribute('data-id'), btn.getAttribute('data-st')); });
+        });
+      } catch (e) {
+        el.innerHTML = '<div class="vazio">Erro JS: ' + e.message + '</div>';
       }
-      document.getElementById('stTotal').textContent=pedidos.length;
-      document.getElementById('stPend').textContent=pedidos.filter(function(p){return p.status==='pendente'}).length;
-      document.getElementById('stPrep').textContent=pedidos.filter(function(p){return p.status==='preparando'||p.status==='confirmado'}).length;
-      document.getElementById('stEnt').textContent=pedidos.filter(function(p){return p.status==='entregue'}).length;
-      document.getElementById('statsBar').style.display='grid';
-      var labels={pendente:'Pendente',confirmado:'Confirmado',preparando:'A preparar',pronto:'Pronto',entregue:'Entregue',cancelado:'Cancelado'};
-      el.innerHTML=pedidos.map(function(p){
-        var itens=(p.itens_pedido||[]).map(function(i){return '• '+i.nome_produto+' × '+i.quantidade+' — '+fmt(i.total)}).join('<br>');
-        return '<article class="card"><div class="card-top"><div><strong style="color:var(--c1)">'+p.numero_pedido+'</strong><br><small style="color:#888">'+fmtData(p.criado_em)+'</small></div><span class="badge b-'+p.status+'">'+(labels[p.status]||p.status)+'</span></div><div class="card-body"><div style="margin-bottom:.6rem;line-height:1.5"><strong>'+p.nome_cliente+'</strong> · '+p.telefone+'<br>'+(p.localizacao?'📍 '+p.localizacao+'<br>':'')+(p.tipo_entrega==='entrega'?'🛵 Entrega':'🏪 Retirada')+(p.endereco?' · '+p.endereco:'')+'</div><div style="background:#fafafa;padding:.6rem .9rem;border-radius:8px;font-size:.86rem;margin-bottom:.6rem">'+itens+'</div><div style="font-weight:700;color:var(--c2);margin-bottom:.5rem">Total: '+fmt(p.total)+'</div>'+(p.observacoes?'<div style="font-size:.84rem;color:#666;font-style:italic;margin-bottom:.5rem">Obs: '+p.observacoes+'</div>':'')+'<div class="acoes"><button class="bc" onclick="setStatus(\''+p.id+'\',\'confirmado\')">Confirmado</button><button class="bp" onclick="setStatus(\''+p.id+'\',\'preparando\')">A preparar</button><button class="br" onclick="setStatus(\''+p.id+'\',\'pronto\')">Pronto</button><button class="be" onclick="setStatus(\''+p.id+'\',\'entregue\')">Entregue</button><button class="bx" onclick="setStatus(\''+p.id+'\',\'cancelado\')">Cancelar</button></div></div></article>';
-      }).join('');
-    }
-    async function setStatus(id,st){
-      var ok=await actualizarStatusPedido(id,st);
-      if(ok){msg('Estado actualizado');carregarPedidos()}
-      else msg('Erro ao actualizar','erro');
     }
 
-    async function carregarProdutos(){
-      var el=document.getElementById('listaProdutos');
-      el.innerHTML='<div class="load">A carregar...</div>';
-      iniciarSupabase();
-      var r=await buscarProdutosDB();
-      if(r.erro){el.innerHTML='<div class="vazio">Erro: '+r.erro+'<br><small>Execute o SQL de politicas de produtos.</small></div>';return}
-      var prods=r.dados||[];
-      if(!prods.length){el.innerHTML='<div class="vazio">Nenhum produto. Clique em "+ Novo produto".</div>';return}
-      el.innerHTML=prods.map(function(p){
-        return '<div class="prod-card"><img src="'+imgUrl(p.imagem_url)+'" alt="'+p.nome+'" onerror="this.src=\'/imagens/logo.png\'"><div class="info"><h3>'+p.nome+' '+(!p.activo?'<span class="tag-off">Inactivo</span>':'')+'</h3><div class="desc">'+(p.descricao||'')+'</div><div class="preco">'+fmt(p.preco)+'</div><div class="acoes-prod"><button class="btn-edit" onclick="editarProdutoObj(\''+p.id+'\')">Editar</button><button class="btn-del" onclick="apagarProduto(\''+p.id+'\',\''+(p.nome||'').replace(/'/g,"\\'")+'\')">Eliminar</button></div></div></div>';
-      }).join('');
-      window._prodsCache=prods;
+    async function setStatus(id, st) {
+      var ok = await actualizarStatusPedido(id, st);
+      if (ok) { msg('Estado actualizado'); carregarPedidos(); }
+      else msg('Erro ao actualizar', 'erro');
     }
-    function editarProdutoObj(id){
-      var p=(window._prodsCache||[]).find(function(x){return x.id===id});
-      if(!p)return;
-      document.getElementById('modalTitulo').textContent='Editar produto';
-      document.getElementById('prodId').value=p.id;
-      document.getElementById('prodNome').value=p.nome||'';
-      document.getElementById('prodDesc').value=p.descricao||'';
-      document.getElementById('prodPreco').value=p.preco||'';
-      document.getElementById('prodImg').value=p.imagem_url||'';
-      document.getElementById('prodFicheiro').value='';
-      if(p.imagem_url){document.getElementById('prodImgThumb').src=imgUrl(p.imagem_url);document.getElementById('prodImgPreview').style.display='block';}
-      else{document.getElementById('prodImgPreview').style.display='none';}
-      document.getElementById('prodCat').value=p.categoria||'bolos';
-      document.getElementById('prodDestaque').checked=!!p.destaque;
-      document.getElementById('prodActivo').checked=p.activo!==false;
+
+    async function carregarProdutos() {
+      var el = document.getElementById('listaProdutos');
+      el.innerHTML = '<div class="load">A carregar...</div>';
+      try {
+        iniciarSupabase();
+        var r = await buscarProdutosDB();
+        if (r.erro) {
+          el.innerHTML = '<div class="vazio">Erro: ' + r.erro + '</div>';
+          return;
+        }
+        var prods = r.dados || [];
+        window._prodsCache = prods;
+        if (!prods.length) {
+          el.innerHTML = '<div class="vazio">Nenhum produto. Clique em “+ Novo produto”.</div>';
+          return;
+        }
+        el.innerHTML = prods.map(function (p) {
+          return '<div class="prod-card"><img src="' + imgUrl(p.imagem_url) + '" alt="' + (p.nome || '') + '" onerror="this.src=\'/imagens/logo.png\'"><div class="info"><h3>' + p.nome + (p.activo === false ? ' <span class="tag-off">Inactivo</span>' : '') + '</h3><div class="desc">' + (p.descricao || '') + '</div><div class="preco">' + fmt(p.preco) + '</div><div class="acoes-prod"><button type="button" class="btn-edit" data-id="' + p.id + '">Editar</button><button type="button" class="btn-del" data-id="' + p.id + '" data-nome="' + (p.nome || '').replace(/"/g, '&quot;') + '">Eliminar</button></div></div></div>';
+        }).join('');
+        el.querySelectorAll('.btn-edit').forEach(function (btn) {
+          btn.addEventListener('click', function () { editarProduto(btn.getAttribute('data-id')); });
+        });
+        el.querySelectorAll('.btn-del').forEach(function (btn) {
+          btn.addEventListener('click', function () { apagarProduto(btn.getAttribute('data-id'), btn.getAttribute('data-nome')); });
+        });
+      } catch (e) {
+        el.innerHTML = '<div class="vazio">Erro JS: ' + e.message + '</div>';
+      }
+    }
+
+    function abrirModal() {
+      document.getElementById('modalTitulo').textContent = 'Novo produto';
+      document.getElementById('prodId').value = '';
+      document.getElementById('prodNome').value = '';
+      document.getElementById('prodDesc').value = '';
+      document.getElementById('prodPreco').value = '';
+      document.getElementById('prodCat').value = 'bolos';
+      document.getElementById('prodImg').value = '';
+      document.getElementById('prodFicheiro').value = '';
+      document.getElementById('prodImgPreview').style.display = 'none';
+      document.getElementById('prodDestaque').checked = false;
+      document.getElementById('prodActivo').checked = true;
       document.getElementById('modalProduto').classList.remove('escondido');
     }
-    function abrirModalProduto(){
-      document.getElementById('modalTitulo').textContent='Novo produto';
-      document.getElementById('prodId').value='';
-      document.getElementById('prodNome').value='';
-      document.getElementById('prodDesc').value='';
-      document.getElementById('prodPreco').value='';
-      document.getElementById('prodImg').value='';
-      document.getElementById('prodFicheiro').value='';
-      document.getElementById('prodImgPreview').style.display='none';
-      document.getElementById('prodCat').value='bolos';
-      document.getElementById('prodDestaque').checked=false;
-      document.getElementById('prodActivo').checked=true;
+
+    function editarProduto(id) {
+      var p = (window._prodsCache || []).find(function (x) { return x.id === id; });
+      if (!p) return;
+      document.getElementById('modalTitulo').textContent = 'Editar produto';
+      document.getElementById('prodId').value = p.id;
+      document.getElementById('prodNome').value = p.nome || '';
+      document.getElementById('prodDesc').value = p.descricao || '';
+      document.getElementById('prodPreco').value = p.preco || '';
+      document.getElementById('prodCat').value = p.categoria || 'bolos';
+      document.getElementById('prodImg').value = p.imagem_url || '';
+      document.getElementById('prodFicheiro').value = '';
+      if (p.imagem_url) {
+        document.getElementById('prodImgThumb').src = imgUrl(p.imagem_url);
+        document.getElementById('prodImgPreview').style.display = 'block';
+      } else {
+        document.getElementById('prodImgPreview').style.display = 'none';
+      }
+      document.getElementById('prodDestaque').checked = !!p.destaque;
+      document.getElementById('prodActivo').checked = p.activo !== false;
       document.getElementById('modalProduto').classList.remove('escondido');
     }
-    function fecharModal(){document.getElementById('modalProduto').classList.add('escondido')}
-    async function guardarProduto(){
-      var id=document.getElementById('prodId').value;
-      var nome=document.getElementById('prodNome').value.trim();
-      var preco=document.getElementById('prodPreco').value;
-      if(!nome||!preco){alert('Nome e preço são obrigatórios');return}
 
-      var imagemUrl=document.getElementById('prodImg').value.trim();
-      var ficheiro=document.getElementById('prodFicheiro').files[0];
+    function fecharModal() {
+      document.getElementById('modalProduto').classList.add('escondido');
+    }
 
-      if(ficheiro){
+    async function guardarProduto() {
+      var id = document.getElementById('prodId').value;
+      var nome = document.getElementById('prodNome').value.trim();
+      var preco = document.getElementById('prodPreco').value;
+      if (!nome || !preco) { alert('Nome e preço são obrigatórios'); return; }
+
+      var imagemUrl = document.getElementById('prodImg').value.trim();
+      var ficheiro = document.getElementById('prodFicheiro').files[0];
+      if (ficheiro) {
         msg('A enviar imagem...');
-        var up=await carregarImagemProduto(ficheiro);
-        if(!up.ok){msg('Erro no upload: '+(up.erro||''),'erro');return}
-        imagemUrl=up.url;
+        var up = await carregarImagemProduto(ficheiro);
+        if (!up.ok) { msg('Erro no upload: ' + (up.erro || ''), 'erro'); return; }
+        imagemUrl = up.url;
       }
 
-      var dados={
-        nome:nome,
-        descricao:document.getElementById('prodDesc').value.trim(),
-        preco:preco,
-        imagem_url:imagemUrl,
-        categoria:document.getElementById('prodCat').value,
-        destaque:document.getElementById('prodDestaque').checked,
-        activo:document.getElementById('prodActivo').checked
+      var dados = {
+        nome: nome,
+        descricao: document.getElementById('prodDesc').value.trim(),
+        preco: preco,
+        imagem_url: imagemUrl,
+        categoria: document.getElementById('prodCat').value,
+        destaque: document.getElementById('prodDestaque').checked,
+        activo: document.getElementById('prodActivo').checked
       };
-      var r=id?await actualizarProduto(id,dados):await criarProduto(dados);
-      if(r.ok){msg(id?'Produto actualizado':'Produto criado');fecharModal();carregarProdutos()}
-      else msg('Erro: '+(r.erro||'desconhecido'),'erro');
-    };
-      if(!dados.nome||!dados.preco){alert('Nome e preco sao obrigatorios');return}
-      var r=id?await actualizarProduto(id,dados):await criarProduto(dados);
-      if(r.ok){msg(id?'Produto actualizado':'Produto criado');fecharModal();carregarProdutos()}
-      else msg('Erro: '+(r.erro||'desconhecido'),'erro');
-    }
-    async function apagarProduto(id,nome){
-      if(!confirm('Eliminar "'+nome+'"?'))return;
-      var r=await eliminarProduto(id);
-      if(r.ok){msg('Produto eliminado');carregarProdutos()}
-      else msg('Erro: '+(r.erro||''),'erro');
+      var r = id ? await actualizarProduto(id, dados) : await criarProduto(dados);
+      if (r.ok) { msg(id ? 'Produto actualizado' : 'Produto criado'); fecharModal(); carregarProdutos(); }
+      else msg('Erro: ' + (r.erro || 'desconhecido'), 'erro');
     }
 
-    
-    document.addEventListener('change', function(e){
-      if(e.target && e.target.id==='prodFicheiro' && e.target.files && e.target.files[0]){
-        var f=e.target.files[0];
-        var url=URL.createObjectURL(f);
-        document.getElementById('prodImgThumb').src=url;
-        document.getElementById('prodImgPreview').style.display='block';
+    async function apagarProduto(id, nome) {
+      if (!confirm('Eliminar "' + nome + '"?')) return;
+      var r = await eliminarProduto(id);
+      if (r.ok) { msg('Produto eliminado'); carregarProdutos(); }
+      else msg('Erro: ' + (r.erro || ''), 'erro');
+    }
+
+    document.getElementById('tabPedidos').addEventListener('click', function () { mudarTab('pedidos'); });
+    document.getElementById('tabProdutos').addEventListener('click', function () { mudarTab('produtos'); });
+    document.getElementById('btnActPedidos').addEventListener('click', carregarPedidos);
+    document.getElementById('btnNovoProd').addEventListener('click', abrirModal);
+    document.getElementById('btnCancelar').addEventListener('click', fecharModal);
+    document.getElementById('btnGuardar').addEventListener('click', guardarProduto);
+    document.getElementById('prodFicheiro').addEventListener('change', function (e) {
+      if (e.target.files && e.target.files[0]) {
+        document.getElementById('prodImgThumb').src = URL.createObjectURL(e.target.files[0]);
+        document.getElementById('prodImgPreview').style.display = 'block';
       }
     });
 
-    document.addEventListener('DOMContentLoaded',function(){
-      iniciarSupabase();
+    document.addEventListener('DOMContentLoaded', function () {
+      if (typeof iniciarSupabase === 'function') iniciarSupabase();
       carregarPedidos();
     });
+  })();
   </script>
 </body>
 </html>
