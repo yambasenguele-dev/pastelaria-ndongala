@@ -129,7 +129,14 @@
           <option value="paes">Pães e Outros</option>
         </select>
       </div>
-      <div class="campo"><label>URL da imagem</label><input type="text" id="prodImg" placeholder="imagens/produtos/bolo.jpg ou https://..."></div>
+      <div class="campo"><label>Imagem do produto</label>
+        <input type="file" id="prodFicheiro" accept="image/*" style="width:100%;padding:.4rem 0;font-size:.9rem">
+        <small style="color:#888;font-size:.78rem">Escolha uma foto do telemóvel ou computador (máx. 5 MB)</small>
+        <div id="prodImgPreview" style="margin-top:.6rem;display:none">
+          <img id="prodImgThumb" src="" alt="Pré-visualização" style="max-width:100%;max-height:140px;border-radius:8px;object-fit:cover">
+        </div>
+        <input type="hidden" id="prodImg">
+      </div>
       <div class="campo check-row">
         <label><input type="checkbox" id="prodDestaque"> Destaque</label>
         <label><input type="checkbox" id="prodActivo" checked> Activo</label>
@@ -212,6 +219,9 @@
       document.getElementById('prodDesc').value=p.descricao||'';
       document.getElementById('prodPreco').value=p.preco||'';
       document.getElementById('prodImg').value=p.imagem_url||'';
+      document.getElementById('prodFicheiro').value='';
+      if(p.imagem_url){document.getElementById('prodImgThumb').src=imgUrl(p.imagem_url);document.getElementById('prodImgPreview').style.display='block';}
+      else{document.getElementById('prodImgPreview').style.display='none';}
       document.getElementById('prodCat').value=p.categoria||'bolos';
       document.getElementById('prodDestaque').checked=!!p.destaque;
       document.getElementById('prodActivo').checked=p.activo!==false;
@@ -224,6 +234,8 @@
       document.getElementById('prodDesc').value='';
       document.getElementById('prodPreco').value='';
       document.getElementById('prodImg').value='';
+      document.getElementById('prodFicheiro').value='';
+      document.getElementById('prodImgPreview').style.display='none';
       document.getElementById('prodCat').value='bolos';
       document.getElementById('prodDestaque').checked=false;
       document.getElementById('prodActivo').checked=true;
@@ -232,15 +244,33 @@
     function fecharModal(){document.getElementById('modalProduto').classList.add('escondido')}
     async function guardarProduto(){
       var id=document.getElementById('prodId').value;
+      var nome=document.getElementById('prodNome').value.trim();
+      var preco=document.getElementById('prodPreco').value;
+      if(!nome||!preco){alert('Nome e preço são obrigatórios');return}
+
+      var imagemUrl=document.getElementById('prodImg').value.trim();
+      var ficheiro=document.getElementById('prodFicheiro').files[0];
+
+      if(ficheiro){
+        msg('A enviar imagem...');
+        var up=await carregarImagemProduto(ficheiro);
+        if(!up.ok){msg('Erro no upload: '+(up.erro||''),'erro');return}
+        imagemUrl=up.url;
+      }
+
       var dados={
-        nome:document.getElementById('prodNome').value.trim(),
+        nome:nome,
         descricao:document.getElementById('prodDesc').value.trim(),
-        preco:document.getElementById('prodPreco').value,
-        imagem_url:(function(u){u=u.trim();if(!u)return '';if(u.indexOf('http')===0||u.charAt(0)==='/')return u;return '/'+u;})(document.getElementById('prodImg').value),
+        preco:preco,
+        imagem_url:imagemUrl,
         categoria:document.getElementById('prodCat').value,
         destaque:document.getElementById('prodDestaque').checked,
         activo:document.getElementById('prodActivo').checked
       };
+      var r=id?await actualizarProduto(id,dados):await criarProduto(dados);
+      if(r.ok){msg(id?'Produto actualizado':'Produto criado');fecharModal();carregarProdutos()}
+      else msg('Erro: '+(r.erro||'desconhecido'),'erro');
+    };
       if(!dados.nome||!dados.preco){alert('Nome e preco sao obrigatorios');return}
       var r=id?await actualizarProduto(id,dados):await criarProduto(dados);
       if(r.ok){msg(id?'Produto actualizado':'Produto criado');fecharModal();carregarProdutos()}
@@ -252,6 +282,16 @@
       if(r.ok){msg('Produto eliminado');carregarProdutos()}
       else msg('Erro: '+(r.erro||''),'erro');
     }
+
+    
+    document.addEventListener('change', function(e){
+      if(e.target && e.target.id==='prodFicheiro' && e.target.files && e.target.files[0]){
+        var f=e.target.files[0];
+        var url=URL.createObjectURL(f);
+        document.getElementById('prodImgThumb').src=url;
+        document.getElementById('prodImgPreview').style.display='block';
+      }
+    });
 
     document.addEventListener('DOMContentLoaded',function(){
       iniciarSupabase();
